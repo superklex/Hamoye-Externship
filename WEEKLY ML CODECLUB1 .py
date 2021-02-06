@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import math
 
 #loading the cellphones dataset
 cell = pd.read_csv("cellphones.csv")
@@ -32,10 +33,16 @@ new.head
 new.loc[(new['Country'] == "United States") & (new["year"] == 2017 )]
 
 #making the geocodes uppercase
-new["geo"].str.upper()
+new["geo"] = new["geo"].str.upper()
 
 #describing the dataframe
 new.describe()
 
 #check for unique countries
 new["Country"].nunique()
+
+#getting top 5 countries with the most cell phones total
+top5= new.loc[new['year'] == 2017]
+highest = top5.nlargest(5, ['cell_phones_total']).drop(["year", "population", "geo", "cell_phone_per-person"], axis = 1) 
+highest['cell_phones_total'] = highest['cell_phones_total'].astype('int64') 
+highest
